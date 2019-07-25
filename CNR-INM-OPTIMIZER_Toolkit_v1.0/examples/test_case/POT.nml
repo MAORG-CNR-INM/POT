@@ -1,0 +1,169 @@
+'-------------------------------------------------------------------------------------------------'
+'|                                                                                               |'
+'|                                 Parallel Optimizer Toolkit                                    |'
+'|                                            v1.0                                               |'
+'|                               24 Jul. 2019 ... release 1.0                                    |'
+'|              Multidisciplinary Analysis and Optimization Research Group (MAORG)               |'
+'|                                   @CNR-INM, Rome, Italy                                       |'
+'|                        Serani A., Pellegrini R., Leotardi C., Diez M.                         |'
+'|                                                                                               |'
+'-------------------------------------------------------------------------------------------------'
+
+!*************************************************************************************************!
+!												  !
+!			        	POT INPUT FILE						  !
+!												  !
+!=================================================================================================!
+
+&OBJECTIVE
+  iobj = 2 			! Test objective function		(int)
+!
+! (1) single-objective test case
+! (2) multi-objective test case
+/
+
+&PROBLEM_PARAMETERS
+  ndv	= 2 	  		! Number of design variables		(int)
+  nfunc	= 2     		! Number of objective function		(int)
+  nbox	= 0     		! Number of box constraints		(int)
+/
+
+&VARIABLES_RANGE
+  xmin = -5.0 -5.0              ! Variable lower bound
+  xmax =  4.0  4.0              ! Variable upper bound
+!
+! Add many column as the number of variables
+/
+
+&OPTIMIZATION_PARAMETERS
+   ialgo = 3			! Kind of optimization algorithm		(int)
+!
+!---Algorithms
+!   ----------
+! (1) Single-objective synchronous determinisitc particle swram optimization (SODPSO)
+! (2) Dolphin Pod Optimization (DPO)
+! (3) Multi-objective synchronous determinisitc particle swram optimization (MODPSO)
+/
+
+&SODPSO_PARAMETERS
+   npart     = 8		! Number of particles      			(int)        
+   nfevalmax = 800		! Number of function evaluation			(int)                
+   iline     = 1		! Line search 					(int)
+   icoef     = 4          	! Coefficient set				(int)           
+   idist     = 3  		! Swarm initialization				(int)  
+   iwall     = 2		! Wall-type approach				(int)       	 
+!
+!---Number of particles suggested
+!   -----------------------------
+!    4*NDV 
+!
+!---Line search
+!   -----------
+! (0) OFF
+! (1) ON (Hybrid global/local deterministic PSO - LS_DF-PSO)
+!
+!---Coefficient set 
+!   ---------------
+! (1) Eberhart and Clerc  (2000)
+! (2) Carlisle and Dozier (2001)
+! (3) Trelea              (2003) 
+! (4) Clerc               (2006) (*suggested)
+! (5) Peri and Tinti      (2012)
+!
+!---Initialization
+!   --------------
+! (1) HSS on domain               | non null velocity (*)NDV>=10
+! (2) HSS on bounds               | non null velocity
+! (3) HSS on domain and bounds    | non null velocity (*)NDV<10
+! (4) HSS on domain               | null velocity
+! (5) HSS on bounds               | null velocity
+! (6) HSS on domain and bounds    | null velocity
+! (7) OrthoInit                   | -----------------
+!
+!---Wall-type
+!   ---------
+! (1) Inelastic
+! (2) Semi-elastic (*suggested)
+/
+
+&LS_PARAMETERS
+  gam   = 1.e-3                 ! gamma (non used)                              (real)
+  step0 = 0.25                  ! Initial linesearch step as ratio of x-range   (real)
+  qcount= 1                     ! Algorithm it. without Gbest up for LS         (int)
+  eps   = 1.e-3                 ! Minimum step threshold                        (real)
+  theta = 0.5                   ! Step decrease ratio                           (real)
+/
+
+
+&DPO_PARAMETERS
+   ndolp     = 8		! Number of dolphins			(int)   
+   nfevalmax = 800		! Number of function evaluation		(int)    
+   iline     = 0		! Line search (not available)		(int)
+   icoef     = 1		! Coefficient set			(int)
+   idist     = 1		! Pod initialization			(int) 
+   iwall     = 2		! Wall-type approach			(int)
+!
+!---Number of dolphins suggested
+!   -----------------------------
+!   4*NDV
+!
+!---Coefficient set 
+!   ---------------
+! (1) Serani and Diez  (2017) *suggested for NDV<10
+! (2) Serani and Diez  (2017) *suggested for NDV>=10
+!
+!---Initialization
+!   --------------
+! (1) HSS on domain               | non null velocity (*sug. for NDV< 10)
+! (2) HSS on bounds               | non null velocity (*sug. for NDV>=10)
+! (3) HSS on domain and bounds    | non null velocity
+! (4) HSS on domain               | null velocity
+! (5) HSS on bounds               | null velocity
+! (6) HSS on domain and bounds    | null velocity
+! (7) OrthoInit                   | -----------------
+!
+!---Wall-type
+!   ---------
+! (1) Inelastic
+! (2) Elastic (*suggested)
+/
+
+&MODPSO_PARAMETERS
+   npart     = 32		! Number of particles			(int)    
+   nfevalmax = 3200		! Number of function evaluations	(int)    
+   icoef     = 4                ! Coefficient set			(int)
+   idist     = 3                ! Particles initialization		(int)
+   iwall     = 2                ! Wall-type approach			(int)    
+   iflag     = 1		! Multi-objective formulation		(int)
+!
+!---Coefficient set 
+!   ---------------
+! (1) Campana
+! (2) Diez
+! (3) Eberhart and Clerc
+! (4) Clerc (*suggested)
+! (5) Trelea
+! (6) Carlisle and Dozier
+! (7) Peri and Tinti
+!
+!---Initialization
+!   --------------
+! (1) HSS on domain               | non null velocity
+! (2) HSS on bounds               | non null velocity
+! (3) HSS on domain and bounds    | non null velocity (*suggested)
+! (4) HSS on domain               | null velocity
+! (5) HSS on bounds               | null velocity
+! (6) HSS on domain and bounds    | null velocity
+! (7) OrthoInit                   | -----------------
+!
+!---Wall-type
+!   ---------
+! (1) Inelastic
+! (2) Semi-elastic (*suggested)
+!
+!---Formulation (iflag)
+!   -----------
+! (0) Diez and Peri (2010)
+! (1) Campana and Pinto (2005) (*suggested)
+/
+

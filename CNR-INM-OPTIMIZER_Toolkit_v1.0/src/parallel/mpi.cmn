@@ -1,0 +1,7 @@
+
+      integer mpidim
+      parameter (mpidim=1000)
+
+      integer nprocs,myrank
+      common /mpi/ nprocs,myrank
+
