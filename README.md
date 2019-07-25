@@ -4,6 +4,7 @@ Parallel Optimizer Toolkit
 version 1.0b
 
 Developed by 
+
 Multidisciplinary Analysis and Optimization Research Group (MAORG)
 
 @CNR-INM, Rome, Italy
