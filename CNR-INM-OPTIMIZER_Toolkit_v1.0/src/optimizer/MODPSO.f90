@@ -233,7 +233,7 @@ do while(iter*nswarm.lt.nfevalmax)
   end if
 
   if (iflag==1) then
-    AggregFunct(i,j) = 0.
+    AggregFunct(:,:) = 0.
       do i=1,nswarm
         do j=1,nParetoPersonal(i)
           do r=1,nfunc
